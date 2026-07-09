@@ -1,0 +1,59 @@
+{
+  "name": "time-trace-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsx src/main.ts",
+    "start:local": "tsx watch src/main.ts",
+    "build": "tsup --config tsup.config.ts",
+    "test": "vitest --run",
+    "format": "npx prettier --write .",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "src/**/*": "prettier --write"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/felipetiwamoto/time-trace-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/felipetiwamoto/time-trace-api/issues"
+  },
+  "homepage": "https://github.com/felipetiwamoto/time-trace-api#readme",
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.5.0",
+    "@types/nodemailer": "^7.0.3",
+    "@types/qrcode": "^1.5.5",
+    "husky": "^8.0.0",
+    "lint-staged": "^16.3.0",
+    "prettier": "^3.8.1",
+    "prisma": "^7.5.0",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  },
+  "dependencies": {
+    "@prisma/adapter-mariadb": "^7.5.0",
+    "@prisma/client": "^7.5.0",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "http-status-codes": "^2.3.0",
+    "image-size": "^1.1.1",
+    "nodemailer": "^7.0.6",
+    "qrcode": "^1.5.3",
+    "zod": "^4.3.6"
+  },
+  "type": "module"
+}

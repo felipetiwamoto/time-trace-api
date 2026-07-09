@@ -1,0 +1,23 @@
+@base = http://localhost:8000
+@USER_AUTH_ID = 9msn7g24qpkvagda0ehb1clfnjoefd
+@TIME_TRACE_API_KEY = gcivd2h5m5k4i7ct5ucrr4q0ucv8h496bpl5jlisstejalkis8876ru22cca
+
+### User Product Update
+PATCH {{base}}/api/v1/user/product/update
+content-Type: application/json
+x-user-auth-id: {{USER_AUTH_ID}}
+x-time-trace-api-key: {{TIME_TRACE_API_KEY}}
+
+{
+	"id": "egdjn2tbos47sfoj772ddkbvohcafb",
+	"name": "Pizza",
+	"description": "Pizza grande",
+	"price": 64.9,
+	"tags": [
+		"8ee5u755pbokttlgskuet3skgrtssu"
+	],
+	"categories": [
+		"41d3mnc538cnk0fln1p1h8ak4ln457",
+		"c3peejg0cts83j216uuhtg71cd8c4o"
+	]
+}

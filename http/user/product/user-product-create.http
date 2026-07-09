@@ -1,0 +1,25 @@
+@base = http://localhost:8000
+@USER_AUTH_ID = 9msn7g24qpkvagda0ehb1clfnjoefd
+@TIME_TRACE_API_KEY = gcivd2h5m5k4i7ct5ucrr4q0ucv8h496bpl5jlisstejalkis8876ru22cca
+
+### User Product Create
+POST {{base}}/api/v1/user/product/create
+content-Type: application/json
+x-user-auth-id: {{USER_AUTH_ID}}
+x-time-trace-api-key: {{TIME_TRACE_API_KEY}}
+
+{
+	"name": "Pizza de Frangoo",
+	"description": "Pizza grande com catupiry",
+	"price": 59.9,
+	"tags": [
+		"8ee5u755pbokttlgskuet3skgrtssu",
+		"9d3ip7ue0ecbpmaqd1eobo7o0j8lil",
+		"bvlac7aapt8p6ctsupofi8gva0k8qe"
+	],
+	"categories": [
+		"41d3mnc538cnk0fln1p1h8ak4ln457",
+		"4stihfobo244r33gsqbiq4eiiv5qlh",
+		"c3peejg0cts83j216uuhtg71cd8c4o"
+	]
+}

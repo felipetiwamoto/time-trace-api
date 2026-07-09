@@ -1,0 +1,14 @@
+@base = http://localhost:8000
+@USER_AUTH_ID = 9msn7g24qpkvagda0ehb1clfnjoefd
+@TIME_TRACE_API_KEY = gcivd2h5m5k4i7ct5ucrr4q0ucv8h496bpl5jlisstejalkis8876ru22cca
+
+### User Product Menu Find
+POST {{base}}/api/v1/user/product-menu/find
+content-Type: application/json
+x-user-auth-id: {{USER_AUTH_ID}}
+x-time-trace-api-key: {{TIME_TRACE_API_KEY}}
+
+{
+	"take": 20,
+	"skip": 0
+}
