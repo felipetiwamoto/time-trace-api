@@ -12,26 +12,11 @@ export const userLoginRepository = {
 		}
 	},
 
-	findOrCreateByEmail: async (email: string): Promise<UserModel | null> => {
-		try {
-			const user = await prisma.user.findFirst({ where: { email, deletedAt: null } });
-			if (user) return user;
-
-			return await prisma.user.create({ data: { id: snText.unique(), email } });
-		} catch {
-			return null;
-		}
-	},
-
 	update: async (email: string): Promise<UserModel | null> => {
 		try {
 			return await prisma.user.update({
 				where: { email },
-				data: {
-					token: null,
-					tokenContext: null,
-					tokenExpiresAt: null,
-				},
+				data: { token: null, tokenContext: null, tokenExpiresAt: null },
 			});
 		} catch {
 			return null;

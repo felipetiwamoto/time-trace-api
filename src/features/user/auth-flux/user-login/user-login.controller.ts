@@ -24,21 +24,16 @@ export const userLoginController = async (req: Request, res: Response, next: Nex
 		});
 
 		const payload = response?.data?.payload;
-		if (!payload?.email) {
-			const message = response?.message ?? 'Não foi possível autenticar o usuário';
-			res.locals.response = snResponse<UserLoginRequest>(StatusCodes.BAD_REQUEST, message, null);
-			return next();
-		}
 
-		const user = await userLoginRepository.findOrCreateByEmail(payload.email);
+		const user = await userLoginRepository.findByEmail(payload.email);
 
 		if (!user) {
-			const message = 'Erro interno do servidor';
-			res.locals.response = snResponse<UserLoginRequest>(StatusCodes.INTERNAL_SERVER_ERROR, message, null);
+			const message = 'Usuario não encontrado';
+			res.locals.response = snResponse<UserLoginRequest>(StatusCodes.NOT_FOUND, message, null);
 			return next();
 		}
 
-		const message = 'Estabelecimento autenticado com sucesso';
+		const message = 'Usuario autenticado com sucesso';
 		res.locals.response = {
 			...snResponse<UserLoginRequest>(StatusCodes.OK, message, null),
 			payload: userLoginResponse({

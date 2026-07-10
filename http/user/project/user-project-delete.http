@@ -1,0 +1,8 @@
+POST {{baseURL}}/api/v1/user/project/delete
+Content-Type: application/json
+x-time-trace-api-key: {{apiKey}}
+x-user-auth-id: {{userAuthID}}
+
+{
+  "ids": [""]
+}

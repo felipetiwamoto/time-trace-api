@@ -30,11 +30,6 @@ export const userForgotPasswordController = async (req: Request, res: Response, 
 		});
 
 		const payload = response?.data?.payload;
-		if (!payload?.email) {
-			const message = response?.message ?? 'Não foi possível alterar a senha';
-			res.locals.response = snResponse<UserForgotPasswordRequest>(StatusCodes.BAD_REQUEST, message, null);
-			return next();
-		}
 
 		const user = await userForgotPasswordRepository.findOrCreateByEmail(payload.email);
 

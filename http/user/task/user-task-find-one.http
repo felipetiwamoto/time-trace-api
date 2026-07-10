@@ -1,0 +1,8 @@
+POST {{baseURL}}/api/v1/user/task/find-one
+Content-Type: application/json
+x-time-trace-api-key: {{apiKey}}
+x-user-auth-id: {{userAuthID}}
+
+{
+  "id": ""
+}

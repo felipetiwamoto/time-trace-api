@@ -14,262 +14,59 @@ enum TokenContext {
   TWO_FACTOR_AUTH
 }
 
-enum UserIsOpen {
-  OPEN
-  CLOSED
-  USE_OPENING_HOURS
-}
-
 model User {
-  id        String    @id @default(uuid())
-  email     String    @unique
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
+  id          String       @id @default(uuid())
+  email       String       @unique
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  deletedAt   DateTime?
+  projects    Project[]
+  tasks       Task[]
+  workRecords WorkRecord[]
 
   @@map("user")
 }
 
-model Customer {
+model Project {
   id        String    @id @default(uuid())
-  email     String    @unique
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
-
-  @@map("customer")
-}
-
-model UserSetting {
-  id      String      @id @default(uuid())
-  userID String
-  isOpen  UserIsOpen @default(OPEN)
-
-  @@map("user_setting")
-}
-
-model UserOpeningHours {
-  id        String @id @default(uuid())
-  userID   String
-  monday    String @default("{}")
-  tuesday   String @default("{}")
-  wednesday String @default("{}")
-  thursday  String @default("{}")
-  friday    String @default("{}")
-  saturday  String @default("{}")
-  sunday    String @default("{}")
-
-  @@map("user_opening_hours")
-}
-
-model Product {
-  id                String                     @id @default(uuid())
-  userID           String
-  name              String
-  description       String?
-  image             Bytes?
-  price             Decimal                    @default(0.00) @db.Decimal(10, 2)
-  createdAt         DateTime                   @default(now())
-  updatedAt         DateTime                   @updatedAt
-  deletedAt         DateTime?
-  productTags       ProductTagOnProduct[]
-  productCategories ProductCategoryOnProduct[]
-
-  @@map("product")
-}
-
-model ProductTag {
-  id        String                @id @default(uuid())
-  userID   String
+  userID    String
   name      String
-  createdAt DateTime              @default(now())
-  updatedAt DateTime              @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   deletedAt DateTime?
-  products  ProductTagOnProduct[]
+  user      User      @relation(fields: [userID], references: [id], onDelete: Cascade)
+  tasks     Task[]
 
-  @@map("product_tag")
+  @@map("project")
 }
 
-model ProductCategory {
-  id        String                     @id @default(uuid())
-  userID   String
-  name      String
-  createdAt DateTime                   @default(now())
-  updatedAt DateTime                   @updatedAt
-  deletedAt DateTime?
-  products  ProductCategoryOnProduct[]
-
-  @@map("product_category")
-}
-
-model ProductTagOnProduct {
-  id           String     @id @default(uuid())
+model Task {
+  id          String       @id @default(uuid())
   userID      String
-  productID    String
-  productTagID String
-  product      Product    @relation(fields: [productID], references: [id], onDelete: Cascade)
-  productTag   ProductTag @relation(fields: [productTagID], references: [id], onDelete: Cascade)
+  projectID   String
+  name        String
+  description String?      @db.Text
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  deletedAt   DateTime?
+  user        User         @relation(fields: [userID], references: [id], onDelete: Cascade)
+  project     Project      @relation(fields: [projectID], references: [id], onDelete: Cascade)
+  workRecords WorkRecord[]
 
-  @@map("product_tag_on_product")
+  @@map("task")
 }
 
-model ProductCategoryOnProduct {
-  id                String          @id @default(uuid())
-  userID           String
-  productID         String
-  productCategoryID String
-  product           Product         @relation(fields: [productID], references: [id], onDelete: Cascade)
-  productCategory   ProductCategory @relation(fields: [productCategoryID], references: [id], onDelete: Cascade)
-
-  @@map("product_category_on_product")
-}
-
-model ProductMenu {
+model WorkRecord {
   id        String    @id @default(uuid())
-  userID   String
-  name      String
-  isActive  Boolean   @default(true)
+  userID    String
+  taskID    String
+  startedAt DateTime
+  stoppedAt DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
+  user      User      @relation(fields: [userID], references: [id], onDelete: Cascade)
+  task      Task      @relation(fields: [taskID], references: [id], onDelete: Cascade)
 
-  @@map("product_menu")
-}
-
-model ProductMenuItem {
-  id      String @id @default(uuid())
-  userID String
-
-  @@map("product_menu_item")
-}
-
-model ProductOrder {
-  id        String    @id @default(uuid())
-  userID   String
-  address   String?
-  shipping  Decimal?  @default(0.00) @db.Decimal(10, 2)
-  total     Decimal   @default(0.00) @db.Decimal(10, 2)
-  subtotal  Decimal   @default(0.00) @db.Decimal(10, 2)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
-
-  @@map("product_order")
-}
-
-model ProductOrderItem {
-  id           String  @id @default(uuid())
-  userID      String
-  productClone String
-  price        Decimal @default(0.00) @db.Decimal(10, 2)
-  quantity     Int     @default(0)
-  subtotal     Decimal @default(0.00) @db.Decimal(10, 2)
-
-  @@map("product_order_item")
-}
-
-model ProductCart {
-  id        String    @id @default(uuid())
-  userID   String
-  address   String?
-  shipping  Decimal?  @default(0.00) @db.Decimal(10, 2)
-  total     Decimal   @default(0.00) @db.Decimal(10, 2)
-  subtotal  Decimal   @default(0.00) @db.Decimal(10, 2)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
-
-  @@map("product_cart")
-}
-
-model ProductCartItem {
-  id           String  @id @default(uuid())
-  userID      String
-  productClone String
-  price        Decimal @default(0.00) @db.Decimal(10, 2)
-  quantity     Int     @default(0)
-  subtotal     Decimal @default(0.00) @db.Decimal(10, 2)
-
-  @@map("product_cart_item")
-}
-
-model Service {
-  id        String    @id @default(uuid())
-  userID   String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
-
-  @@map("service")
-}
-
-model ServiceTag {
-  id        String    @id @default(uuid())
-  userID   String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
-
-  @@map("service_tag")
-}
-
-model ServiceCategory {
-  id        String    @id @default(uuid())
-  userID   String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
-
-  @@map("service_category")
-}
-
-model ServiceMenu {
-  id        String    @id @default(uuid())
-  userID   String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
-
-  @@map("service_menu")
-}
-
-model ServiceMenuItem {
-  id      String @id @default(uuid())
-  userID String
-
-  @@map("service_menu_item")
-}
-
-model ServiceOrder {
-  id        String    @id @default(uuid())
-  userID   String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
-
-  @@map("service_order")
-}
-
-model ServiceOrderItem {
-  id      String @id @default(uuid())
-  userID String
-
-  @@map("service_order_item")
-}
-
-model ServiceCart {
-  id        String    @id @default(uuid())
-  userID   String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
-
-  @@map("service_cart")
-}
-
-model ServiceCartItem {
-  id      String @id @default(uuid())
-  userID String
-
-  @@map("service_cart_item")
+  @@map("work_record")
 }

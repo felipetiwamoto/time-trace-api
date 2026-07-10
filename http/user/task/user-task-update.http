@@ -1,0 +1,11 @@
+PUT {{baseURL}}/api/v1/user/task/update
+Content-Type: application/json
+x-time-trace-api-key: {{apiKey}}
+x-user-auth-id: {{userAuthID}}
+
+{
+  "id": "",
+  "projectID": "",
+  "name": "Implementar tela atualizada",
+  "description": "Ajustar detalhes da tarefa"
+}
