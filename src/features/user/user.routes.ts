@@ -13,11 +13,14 @@ import { userProjectFindController } from './project/user-project-find/user-proj
 import { userProjectFindOneController } from './project/user-project-find-one/user-project-find-one.controller.js';
 import { userProjectUpdateController } from './project/user-project-update/user-project-update.controller.js';
 import { userTaskCreateController } from './task/user-task-create/user-task-create.controller.js';
+import { userTaskByProjectController } from './task/user-task-by-project/user-task-by-project.controller.js';
 import { userTaskDeleteController } from './task/user-task-delete/user-task-delete.controller.js';
 import { userTaskFindController } from './task/user-task-find/user-task-find.controller.js';
 import { userTaskFindOneController } from './task/user-task-find-one/user-task-find-one.controller.js';
 import { userTaskUpdateController } from './task/user-task-update/user-task-update.controller.js';
 import { userWorkRecordCreateController } from './work-record/user-work-record-create/user-work-record-create.controller.js';
+import { userWorkRecordByProjectController } from './work-record/user-work-record-by-project/user-work-record-by-project.controller.js';
+import { userWorkRecordByPeriodController } from './work-record/user-work-record-by-period/user-work-record-by-period.controller.js';
 import { userWorkRecordDeleteController } from './work-record/user-work-record-delete/user-work-record-delete.controller.js';
 import { userWorkRecordFindController } from './work-record/user-work-record-find/user-work-record-find.controller.js';
 import { userWorkRecordStopAllController } from './work-record/user-work-record-stop-all/user-work-record-stop-all.controller.js';
@@ -44,6 +47,7 @@ export function userRoutes(app: Express) {
 	// TASKS
 	app.post(`${prefix}/task/create`, jwe.decode, auth, userTaskCreateController, jwe.encode);
 	app.post(`${prefix}/task/find`, jwe.decode, auth, userTaskFindController, jwe.encode);
+	app.post(`${prefix}/task/task-by-project`, jwe.decode, auth, userTaskByProjectController, jwe.encode);
 	app.post(`${prefix}/task/find-one`, jwe.decode, auth, userTaskFindOneController, jwe.encode);
 	app.put(`${prefix}/task/update`, jwe.decode, auth, userTaskUpdateController, jwe.encode);
 	app.post(`${prefix}/task/delete`, jwe.decode, auth, userTaskDeleteController, jwe.encode);
@@ -51,6 +55,8 @@ export function userRoutes(app: Express) {
 	// WORK RECORDS
 	app.post(`${prefix}/work-record/create`, jwe.decode, auth, userWorkRecordCreateController, jwe.encode);
 	app.post(`${prefix}/work-record/find`, jwe.decode, auth, userWorkRecordFindController, jwe.encode);
+	app.post(`${prefix}/work-record/work-record-by-project`, jwe.decode, auth, userWorkRecordByProjectController, jwe.encode);
+	app.post(`${prefix}/work-record/work-record-by-period`, jwe.decode, auth, userWorkRecordByPeriodController, jwe.encode);
 	app.put(`${prefix}/work-record/update`, jwe.decode, auth, userWorkRecordUpdateController, jwe.encode);
 	app.post(`${prefix}/work-record/stop`, jwe.decode, auth, userWorkRecordStopController, jwe.encode);
 	app.post(`${prefix}/work-record/stop-all`, jwe.decode, auth, userWorkRecordStopAllController, jwe.encode);
